@@ -72,11 +72,32 @@ namespace BetApp.Web.Controllers
             return NoContent();
         }
 
+        public class BetRequest
+        {
+            public int UserId { get; set; }
+            public int HighestBid { get; set; }
+            public string Item { get; set; }
+        }
+
         // POST: api/Bet
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bet>> PostBet(Bet bet)
+        public async Task<ActionResult<Bet>> PostBet(BetRequest betRequest)
         {
+            var user = await _context.Users.FindAsync(betRequest.UserId);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            var bet = new Bet
+            {
+                User = user,
+                UserId = user.Id,
+                HighestBid = betRequest.HighestBid,
+                Item = betRequest.Item,
+            };
+
+
             _context.Bets.Add(bet);
             await _context.SaveChangesAsync();
 
