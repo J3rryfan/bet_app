@@ -2,9 +2,16 @@
 import { Bet } from "@/types/bet";
 import { Button } from "./ui/button";
 import { Loader2, Trash2 } from "lucide-react";
+import { useDeleteBet } from "@/hooks/bets";
 
 
 export default function BetItem({bet}: {bet: Bet}) {
+
+ const {deleteBet, error, isDeleting } =  useDeleteBet();
+
+  const handleDelete = async () => {
+    await deleteBet(bet.id);
+  };
 
   return (
     <div>
@@ -19,7 +26,7 @@ export default function BetItem({bet}: {bet: Bet}) {
         </div>
         <div className="flex items-center space-x-2">
           <span className="text-sm font-semibold text-gray-600 ">{bet.user.username}</span>
-          {/* <Button size="icon" variant="destructive" onClick={handleDelete}>
+          <Button size="icon" variant="destructive" onClick={handleDelete}>
             {isDeleting ? (
               <span className="animate-spin">
                 <Loader2 />
@@ -27,7 +34,7 @@ export default function BetItem({bet}: {bet: Bet}) {
             ) : (
               <Trash2 />
             )}
-        </Button> */}
+        </Button>
         </div>
       </div>
      </div>

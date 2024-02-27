@@ -41,3 +41,24 @@ export function useCreateBet() {
 
   return { createBet: mutateAsync, error, isCreating: isPending };
 }
+
+
+
+// delete a bet
+
+export function useDeleteBet () {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, error, isPending} = useMutation({
+    mutationFn: async (id: Bet["id"]) => {
+      await fetch(`/api/bet/${id}`, {
+        method: "DELETE"
+      });
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["bets"] });
+    },
+  });
+  return { deleteBet: mutateAsync, error, isDeleting: isPending };
+}
