@@ -110,7 +110,7 @@ namespace BetApp.Web.Controllers
             _context.Bets.Add(bet);
             await _context.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("NewBet", bet);
+            await _hubContext.Clients.All.SendAsync("ReceiveBet", bet);
 
             return CreatedAtAction("GetBet", new { id = bet.Id }, bet);
         }
