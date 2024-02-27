@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetApp.Web.Models;
+using Microsoft.AspNetCore.SignalR;
+using BetApp.Web.Hubs;
 
 namespace BetApp.Web.Controllers
 {
@@ -15,9 +17,12 @@ namespace BetApp.Web.Controllers
     {
         private readonly DatabaseContext _context;
 
-        public BetController(DatabaseContext context)
+        private readonly IHubContext<BetHub> _hubContext;
+
+        public BetController(DatabaseContext context, IHubContext<BetHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         // GET: api/Bet
@@ -72,6 +77,8 @@ namespace BetApp.Web.Controllers
             return NoContent();
         }
 
+
+
         public class BetRequest
         {
             public int UserId { get; set; }
@@ -84,11 +91,19 @@ namespace BetApp.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<Bet>> PostBet(BetRequest betRequest)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _context.Users.FindAsync(betRequest.UserId);
             if (user == null)
             {
                 return BadRequest("User not found");
             }
+
+
             var bet = new Bet
             {
                 User = user,
@@ -97,9 +112,10 @@ namespace BetApp.Web.Controllers
                 Item = betRequest.Item,
             };
 
-
             _context.Bets.Add(bet);
             await _context.SaveChangesAsync();
+
+            await _hubContext.Clients.All.SendAsync("NewBet", bet);
 
             return CreatedAtAction("GetBet", new { id = bet.Id }, bet);
         }

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OpenApi;
+using BetApp.Web.Hubs;
 using BetApp.Web.Models;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,6 @@ DotNetEnv.Env.Load();
 
 
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
-
 
 
 builder.Services.AddDbContext<DatabaseContext>(
@@ -27,6 +28,8 @@ builder.Services.AddDbContext<DatabaseContext>(
 );
 
 
+builder.Services.AddSignalR();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -40,8 +43,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.MapHub<BetHub>("/r/betHub");
+
 
 app.MapGet("/", () => "Hello World!");
-app.MapGet("/test", () => "Hello World!");
 
 app.Run();
