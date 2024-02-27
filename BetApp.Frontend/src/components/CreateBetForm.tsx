@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useCreateBet, useUpdateBet } from "@/hooks/bets";
+import { useCreateBet,  } from "@/hooks/bets";
 
 import {
   Form,
