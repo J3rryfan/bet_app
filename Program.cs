@@ -47,5 +47,6 @@ app.MapHub<BetHub>("/r/betHub");
 
 
 app.MapGet("/", () => "Hello World!");
+app.MapGet("/test", () => "Hello World!");
 
 app.Run();
