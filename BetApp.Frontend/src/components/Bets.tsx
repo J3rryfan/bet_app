@@ -1,5 +1,3 @@
-// import { useTodos } from "@/hooks/todos";
-// import TodoItem from "./TodoItem";
 import { useBets } from "@/hooks/bets";
 import BetItem from "./BetItem";
 

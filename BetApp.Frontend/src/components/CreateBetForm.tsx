@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
 
 const formSchema = z.object({
   item: z
@@ -51,7 +53,6 @@ const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>;
 
 export default function CreateBetForm() {
-
 
   const { createBet, error, isCreating } = useCreateBet();
 
@@ -145,6 +146,7 @@ export default function CreateBetForm() {
               <Button className="w-full" disabled={isCreating}>
                 {isCreating ? <p>It is creating</p> : "create"}
               </Button>
+              {/* <Toaster />  */}
             </form>
         </Form>
       </DialogContent>

@@ -18,7 +18,7 @@ export default function useSignalR(url: string) {
       .configureLogging(LogLevel.Information)
       .build();
 
-    connection
+      connection
       .start()
       .then(() => {
         if (!canceled) {
@@ -29,7 +29,6 @@ export default function useSignalR(url: string) {
         console.log("signal error", error);
       });
 
-    // @ts-ignore
     connection.onclose((error) => {
       if (canceled) {
         return;
@@ -38,7 +37,6 @@ export default function useSignalR(url: string) {
       setConnection(undefined);
     });
 
-    // @ts-ignore
     connection.onreconnecting((error) => {
       if (canceled) {
         return;
@@ -47,7 +45,6 @@ export default function useSignalR(url: string) {
       setConnection(undefined);
     });
 
-    // @ts-ignore
     connection.onreconnected((error) => {
       if (canceled) {
         return;

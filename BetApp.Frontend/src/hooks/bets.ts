@@ -24,14 +24,13 @@ export function useCreateBet() {
 
   const { mutateAsync, error, isPending } = useMutation({
      mutationFn: async (bet: BetTodo) => {
-      const response = await fetch("/api/bet", {
+      await fetch("/api/bet", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         }, 
         body: JSON.stringify(bet)
-      })
-      return response.json();
+      });
      },
      onSuccess: () => {
       // Invalidate and refetch
