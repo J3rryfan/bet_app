@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button"
 import { FlagIcon } from "lucide-react"
-import { Input } from "./components/ui/input"
 
 import useSignalR from "./hook/useSignalR"
-
+import CreateBetForm from "./components/create-bet-form";
 
 
 export default function App() {
@@ -27,11 +25,9 @@ export default function App() {
         <div className="container flex flex-col items-center px-4 md:px-6 space-y-4">
           <div className="w-full max-w-sm space-y-2 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl/none">Place Your Bet</h1>
+            <p className="text-gray-600">Enter your bet details below</p>
           </div>
-          <form className="flex w-full max-w-sm flex-col space-y-2">
-            <Input className="border-gray-300" min="1" placeholder="Enter amount" type="number" />
-            <Button className="self-end w-auto">Bet</Button>
-          </form>
+          <CreateBetForm />
         </div>
       </main>
      
