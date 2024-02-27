@@ -64,3 +64,28 @@ export function useDeleteBet() {
 
   return { deleteBet: mutateAsync, error, isDeleting: isPending };
 }
+
+
+
+// update a bet
+export function useUpdateBet() {
+  const queryClient = useQueryClient();
+
+  const {mutateAsync, error, isPending } = useMutation({
+    mutationFn: async (bet: Bet) => {
+      await fetch(`/api/bet/${bet.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bet),
+      });
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["bets"] });
+    },
+  })
+
+  return { updateBet: mutateAsync, updateError :error, isUpdating: isPending };
+}

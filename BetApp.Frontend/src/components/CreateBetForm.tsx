@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useCreateBet } from "@/hooks/bets";
+import { useCreateBet, useUpdateBet } from "@/hooks/bets";
 
 import {
   Form,
@@ -50,8 +50,11 @@ const formSchema = z.object({
 
 export type FormSchema = z.infer<typeof formSchema>;
 
-export default function CreateBetForm() {  
+export default function CreateBetForm() {
+
+
   const { createBet, error, isCreating } = useCreateBet();
+
 
     const form = useForm<FormSchema>({
       resolver: zodResolver(formSchema),
@@ -67,6 +70,7 @@ export default function CreateBetForm() {
     console.log("Bet created!", values);
     form.reset();
   }
+
 
 
   return (
@@ -127,10 +131,11 @@ export default function CreateBetForm() {
                       <Input 
                       type="number"
                       placeholder="Enter amount" 
+                      min={0}
                       {...field}
                       onChange={e => {
                         const value = e.target.value;
-                        field.onChange(value === "" ? null : parseFloat(value));
+                        field.onChange(value === "" ? "" : parseFloat(value));
                       }}
                       />
                     </FormControl>
@@ -139,7 +144,7 @@ export default function CreateBetForm() {
                 )}
               />
               <Button className="w-full" disabled={isCreating}>
-                {isCreating ? <p>It is creating</p> : "created"}
+                {isCreating ? <p>It is creating</p> : "create"}
               </Button>
             </form>
         </Form>

@@ -9,8 +9,15 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": "http://127.0.0.1:5140",
+      "/r": {
+        target: "http://127.0.0.1:5140",
+        ws: true,
+      },
     }
   },
+
+
+  
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
