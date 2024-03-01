@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BetApp.Web.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240222211356_InitialCreate")]
+    [Migration("20240229213627_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
