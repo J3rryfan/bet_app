@@ -1,7 +1,7 @@
 import { Bet } from '@/types/bet';
 import { Button } from './ui/button';
 import { Loader2, Trash2 } from 'lucide-react';
-import { useDeleteBet, useEditBet } from '@/hooks/bets';
+import { useDeleteBet } from '@/hooks/bets';
 
 import {
   Card,
@@ -18,6 +18,8 @@ export default function BetItem({ bet }: { bet: Bet }) {
   const handleDelete = async () => {
     await deleteBet(bet.id);
   };
+
+  console.log('This is a test for git hub .');
 
   return (
     <Card className=' flex items-center justify-between p-4 '>
