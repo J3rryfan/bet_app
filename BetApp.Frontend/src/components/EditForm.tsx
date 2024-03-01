@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useCreateBet } from '@/hooks/bets';
+import { useEditBet } from '@/hooks/bets';
 
 import {
   Form,
@@ -22,16 +22,9 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Pencil } from 'lucide-react';
 
 const formSchema = z.object({
-  item: z
-    .string()
-    .min(2, {
-      message: 'Title must be at least 2 characters long',
-    })
-    .max(50, {
-      message: 'Title must be at least 50 characters short',
-    }),
   highestBid: z
     .number()
     .int({ message: 'Highest bid must be a number' })
@@ -51,32 +44,35 @@ const formSchema = z.object({
 
 export type FormSchema = z.infer<typeof formSchema>;
 
-export default function CreateBetForm() {
-  const { createBet, error, isCreating } = useCreateBet();
+export default function EditBetForm() {
+  // const { createBet, error, isCreating } = useCreateBet();
+  // edit bet
+  const { editBet, error, isEditing } = useEditBet();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      item: '',
       highestBid: 0,
     },
   });
 
   async function onSubmit(values: FormSchema) {
     const bet = { ...values, userId: 1 };
-    await createBet(bet);
-    console.log('Bet created!', values);
+    await editBet(bet);
+    console.log('Bet edited!', values);
     form.reset();
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className='w-40 h-10 '>Create Bet</Button>
+        <Button>
+          <Pencil size='icon' />
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Create Bet</DialogTitle>
+          <DialogTitle>How much do you want to Bet</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -87,7 +83,21 @@ export default function CreateBetForm() {
               </div>
             )}
 
-            <FormField
+            {/* <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
+
+            {/* <FormField
               control={form.control}
               name='item'
               render={({ field }) => (
@@ -99,7 +109,7 @@ export default function CreateBetForm() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -123,8 +133,8 @@ export default function CreateBetForm() {
                 </FormItem>
               )}
             />
-            <Button className='w-full' disabled={isCreating}>
-              {isCreating ? <p>It is creating</p> : 'create'}
+            <Button className='w-full' disabled={isEditing}>
+              {isEditing ? <p>It is editing</p> : 'Bet'}
             </Button>
             {/* <Toaster />  */}
           </form>

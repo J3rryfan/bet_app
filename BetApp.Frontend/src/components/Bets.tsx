@@ -1,11 +1,11 @@
-import { useBets } from "@/hooks/bets";
-import BetItem from "./BetItem";
+import { useBets } from '@/hooks/bets';
+import BetItem from './BetItem';
 
 export default function Bets() {
   const { bets, error, isPending } = useBets();
-  
+
   return (
-    <div className="">
+    <div className=' grid grid-cols-2 space-x-2 space-y-2'>
       {isPending ? (
         <div>Loading...</div>
       ) : error ? (
