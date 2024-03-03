@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   HubConnection,
   HubConnectionBuilder,
   LogLevel,
-} from "@microsoft/signalr";
+} from '@microsoft/signalr';
 
 export default function useSignalR(url: string) {
   const [connection, setConnection] = useState<HubConnection | undefined>(
@@ -18,7 +18,7 @@ export default function useSignalR(url: string) {
       .configureLogging(LogLevel.Information)
       .build();
 
-      connection
+    connection
       .start()
       .then(() => {
         if (!canceled) {
@@ -26,30 +26,35 @@ export default function useSignalR(url: string) {
         }
       })
       .catch((error) => {
-        console.log("signal error", error);
+        console.log('signal error', error);
       });
 
+    // @ts-ignore
     connection.onclose((error) => {
       if (canceled) {
         return;
       }
-      console.log("signal closed");
+      console.log('signal closed');
       setConnection(undefined);
     });
+
+    // @ts-ignore
 
     connection.onreconnecting((error) => {
       if (canceled) {
         return;
       }
-      console.log("signal reconnecting");
+      console.log('signal reconnecting');
       setConnection(undefined);
     });
+
+    // @ts-ignore
 
     connection.onreconnected((error) => {
       if (canceled) {
         return;
       }
-      console.log("signal reconnected");
+      console.log('signal reconnected');
       setConnection(connection);
     });
 

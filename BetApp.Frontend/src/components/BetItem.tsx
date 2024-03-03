@@ -1,13 +1,10 @@
+import { Bet } from '@/types/bet';
+import { Button } from './ui/button';
+import { Loader2, Trash2 } from 'lucide-react';
+import { useDeleteBet } from '@/hooks/bets';
 
-import { Bet } from "@/types/bet";
-import { Button } from "./ui/button";
-import { Loader2, Trash2 } from "lucide-react";
-import { useDeleteBet } from "@/hooks/bets";
-
-
-export default function BetItem({bet}: {bet: Bet}) {
-
- const {deleteBet, error, isDeleting } =  useDeleteBet();
+export default function BetItem({ bet }: { bet: Bet }) {
+  const { deleteBet, isDeleting } = useDeleteBet();
 
   const handleDelete = async () => {
     await deleteBet(bet.id);
@@ -15,28 +12,31 @@ export default function BetItem({bet}: {bet: Bet}) {
 
   return (
     <div>
-      <div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full">
-          </div>
+      <div className='flex items-center justify-between p-4 bg-white rounded-lg shadow-md'>
+        <div className='flex items-center space-x-4'>
+          <div className='flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full'></div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-800">{bet.item}</h2>
-            <p className="text-sm font-semibold text-gray-400">${bet.highestBid}</p>
+            <h2 className='text-lg font-semibold text-gray-800'>{bet.item}</h2>
+            <p className='text-sm font-semibold text-gray-400'>
+              ${bet.highestBid}
+            </p>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm font-semibold text-gray-600 ">{bet.user.username}</span>
-          <Button size="icon" variant="destructive" onClick={handleDelete}>
+        <div className='flex items-center space-x-2'>
+          <span className='text-sm font-semibold text-gray-600 '>
+            {bet.user.username}
+          </span>
+          <Button size='icon' variant='destructive' onClick={handleDelete}>
             {isDeleting ? (
-              <span className="animate-spin">
+              <span className='animate-spin'>
                 <Loader2 />
               </span>
             ) : (
               <Trash2 />
             )}
-        </Button>
+          </Button>
         </div>
       </div>
-     </div>
+    </div>
   );
 }
